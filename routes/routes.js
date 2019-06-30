@@ -40,13 +40,25 @@ router
         startupService.resetCache()
         res.send(result)
     })
-    .get('/startups', async (req, res) => {
-        const result  = await startupService.get()
-        res.send(result)
-    })
-    .post('/startups', async (req, res) => {
-        const result = await startupService.update(req.body)
-        res.send(result)
-    })
+    .get('/startups', startupServiceExecutor('get'))
+    .post('/startups', startupServiceExecutor('update'))
+
+function startupServiceExecutor(action) {
+    return async (req, res) => {
+        let result, status
+        try {
+            result = await startupService[action](req.body)
+        }
+        catch(ex) {
+            status = 500
+            result = {
+                error: ex.message
+            }
+        }
+        finally {
+            res.status(status || 200).send(result)
+        }
+    }
+}
 
 module.exports = router;

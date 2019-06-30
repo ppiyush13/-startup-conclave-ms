@@ -5,7 +5,6 @@ const startupList = [
         name: 'techforce',
         poc: [
             {
-                available: true,
                 name: 'Vijay Navaluri',
                 contact: '9876543210',
                 linkedin: 'https://www.linkedin.com/in/navaluri/'
@@ -16,7 +15,6 @@ const startupList = [
         name: 'haptik',
         poc: [
             {
-                available: true,
                 name: 'Swapan Rajdev',
                 contact: '9876543210',
                 linkedin: 'https://www.linkedin.com/in/swapan-rajdev-64a0591a/'

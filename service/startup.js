@@ -4,30 +4,39 @@ class Startup {
     cache = null
     cacheMap = null
     async get() {
-        if(this.cache) {
-            console.log('cache hit !!')
+        try {
+            if(this.cache) {
+                console.log('cache hit !!')
+            }
+            else {
+                console.log('cache miss !!')
+                const rows = await startupDao.getStartupDetails()
+                this.updateCache(rows)
+            }
+            return this.cache
         }
-        else {
-            console.log('cache miss !!')
-            const rows = await startupDao.getStartupDetails()
-            this.updateCache(rows)
+        catch(ex) {
+            throw ex
         }
-        return this.cache
     }
 
     async update(records) {
-        const {rows} = await startupDao.updateStartupDetails(records)
-        console.log(rows)
-        if(this.cacheMap) {
-            rows.forEach(({startup_name, name, available, in_time}) => {
-                const node = this.cacheMap[`${startup_name}_${name}`]
-                node.available = available
-                node.in_time = in_time
-            })
-            return this.updateCache(Object.values(this.cacheMap))
+        try {
+            const {rows} = await startupDao.updateStartupDetails(records)
+            if(this.cacheMap) {
+                rows.forEach(({startup_name, name, available, in_time}) => {
+                    const node = this.cacheMap[`${startup_name}_${name}`]
+                    node.available = available
+                    node.in_time = in_time
+                })
+                return this.updateCache(Object.values(this.cacheMap))
+            }
+            else {
+                return this.get()
+            }
         }
-        else {
-            return this.get()
+        catch(ex) {
+            throw ex
         }
     }
 
