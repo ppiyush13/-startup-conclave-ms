@@ -9,7 +9,7 @@ module.exports = async () => execute(pool => Promise.all(
             `
                 CREATE TABLE STARTUP (
                     NAME VARCHAR(100) PRIMARY KEY,
-                    TYPE VARCHAR(100)
+                    WEBSITE VARCHAR(200)
                 )
             `,
             `

@@ -43,9 +43,9 @@ class Startup {
     updateCache(rows) {
         this.cacheMap = {}
         const rowsMap = rows.reduce((acc, cur) => {
-            const {startup_name, type, ...poc} = cur
+            const {startup_name, website, ...poc} = cur
             if(!acc[startup_name]) acc[startup_name] = {
-                startup_name, type, poc: []
+                startup_name, website, poc: []
             }
             acc[startup_name].poc.push(poc)
             this.cacheMap[`${startup_name}_${poc.name}`] = cur
